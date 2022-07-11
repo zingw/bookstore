@@ -6,23 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "bill")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
+public class Stock {
 
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "product_id")
+    private String productId;
 
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "author")
-    private String author;
+    @Column(name = "quantity")
+    private Integer quantity;
 }

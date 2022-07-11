@@ -8,21 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
-
+public class Category {
     @Id
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "author")
-    private String author;
+    @Column(name  = "id")
+    private String id;
+    @Column(name = "name")
+    private String name;
 }
