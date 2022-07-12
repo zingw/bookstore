@@ -32,13 +32,13 @@ public class AuthenFilterConfig extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
-                                    HttpServletResponse res,
-                                    FilterChain chain) throws ServletException, IOException {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String tokenTemp = req.getHeader(HttpHeaders.AUTHORIZATION);
+            HttpServletResponse res,
+            FilterChain chain) throws ServletException, IOException {
+                SecurityContext context = SecurityContextHolder.getContext();
+                String tokenTemp = req.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (tokenTemp == null) {
-            chain.doFilter(req, res);
+                if (tokenTemp == null) {
+                    chain.doFilter(req, res);
             return;
         }
         String token = tokenTemp.replace("Bearer ", "");

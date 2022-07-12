@@ -1,13 +1,15 @@
 package com.example.book.store.service;
 import com.example.book.store.dto.ApiResponse;
 import com.example.book.store.entities.Bill;
+import com.example.book.store.entities.OrderDetail;
 import com.example.book.store.repository.BillRepository;
+import com.example.book.store.repository.OrderRepository;
 import com.example.book.store.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 
 @Service
 public class SellServiceImpl implements SellService{
@@ -16,6 +18,9 @@ public class SellServiceImpl implements SellService{
 
     @Autowired
     BillRepository billRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Override
     public ApiResponse<?> sell(Map<String, Integer> purchaseMap, String paymentType) {
@@ -29,8 +34,24 @@ public class SellServiceImpl implements SellService{
                     *purchaseMap.get(s);
         }
 
-        Bill bill = new Bill(UUID.randomUUID().toString(),total,"psh",paymentType,new Date());
+        //tach SecurityContext... ra 1 class rieng
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(username);
+
+        Bill bill = new Bill(UUID.randomUUID().toString(),total,username,paymentType,new Date());
         billRepository.save(bill);
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+
+        // getorderDetailListBy...
+        for(String s: purchaseMap.keySet()){
+            orderDetailList.add( new OrderDetail(   UUID.randomUUID().toString(),
+                                                    bill.getId(),
+                                                    s,
+                                                    productRepository.findById(s).get().getSellPrice(),
+                                                    purchaseMap.get(s)));
+        }
+        orderRepository.saveAll(orderDetailList);
         return new ApiResponse<>("Thanh toán thành công",total);
+        //
     }
 }

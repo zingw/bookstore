@@ -6,15 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 
 @Entity
 @Table(name  = "bill")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Data
 public class Bill {
 
@@ -22,11 +19,11 @@ public class Bill {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "total")
-    private Integer total;
+    @Column(name = "total_money")
+    private Integer totalMoney;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "payment_type")
     private String paymentType;
