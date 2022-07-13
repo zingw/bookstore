@@ -36,25 +36,34 @@ public class SellServiceImpl implements SellService {
     public ApiResponse<OrderResponse> sell(Map<String, Integer> purchaseMap,
                                            String paymentType,
                                            String customerPhone,
-                                           Integer discountPercent,
-                                           Integer discountOther,
+                                           Integer discountPercent, // value từ 1--> 100
+                                           Integer discountOther,   // Số tiền, value ko hạn chế
                                            String note) {
 
+        if (purchaseMap.isEmpty()) throw new RuntimeException("NOTHING_TO_SELL");
         // generate OrderResponse
-        List<ProductResponse> productResponseList = generateProductResponseList(purchaseMap);
-        if (productResponseList == null) {
-            return new ApiResponse<>("Danh Sách Lỗi", false, null);
+        String billId = UUID.randomUUID().toString();
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        List<ProductResponse> productResponseList = new ArrayList<>();
+        int totalPayBeforeDiscount = 0;
+        int totalPayAfterDiscount;
+
+        for (String productId : purchaseMap.keySet()) {
+
+            orderDetails.add(buildOrderDetail(productId, billId, purchaseMap));
+            ProductResponse prodRes = buildProductResponse(productId, purchaseMap);
+            productResponseList.add(buildProductResponse(productId, purchaseMap));
+            totalPayBeforeDiscount += prodRes.getMoney();
         }
+        totalPayAfterDiscount = totalPayBeforeDiscount * discountPercent/ 100 - discountOther;
         EmployeeResponse employeeResponse = employeeResponseGenerator();
         CustomerResponse customerResponse = customerResponseGenerator(customerPhone);
         Date orderTime = new Date();
-        String payment = paymentType;
-        Integer totalPayAfterDiscount = getTotalPayBeforeDiscount(productResponseList) * (100 - discountOther - discountPercent);
 
         // save info to repository
         Bill bill = new Bill(
-                            UUID.randomUUID().toString(),
-                            getTotalPayBeforeDiscount(productResponseList),
+                            billId,
+                            totalPayAfterDiscount,
                             employeeResponse.getId(),
                             paymentType,
                             orderTime,
@@ -62,31 +71,35 @@ public class SellServiceImpl implements SellService {
                             discountOther,
                             note);
         billRepository.save(bill);
-        for (String productId : purchaseMap.keySet()) {
-            OrderDetail orderDetail = new OrderDetail(
-                                                    UUID.randomUUID().toString(),
-                                                    bill.getId(),
-                                                    productId,
-                                                    productRepository.findById(productId).get().getSellPrice(),
-                                                    purchaseMap.get(productId));
-            orderDetailRepository.save(orderDetail);
-        }
+        orderDetailRepository.saveAll(orderDetails);
 
         return new ApiResponse<>("Thanh toán thành công",true,new OrderResponse(
                                                                                                 productResponseList,
                                                                                                 employeeResponse,
                                                                                                 customerResponse,
-                                                                                                orderTime,payment,
+                                                                                                orderTime, paymentType,
                                                                                                 totalPayAfterDiscount));
 
     }
 
-    private Integer getTotalPayBeforeDiscount(List<ProductResponse> productResponseList) {
-        Integer total = 0;
-        for(ProductResponse productResponse :productResponseList){
-            total += productResponse.getMoney();
-        }
-        return total;
+    private ProductResponse buildProductResponse(String productId, Map<String, Integer> purchaseMap) {
+        if (productRepository.findById(productId).isEmpty()) throw new RuntimeException("PRODUCT_NOT_FOUND " + productId);
+
+        String productName = productRepository.findById(productId).get().getName();
+        Integer quantity = purchaseMap.get(productId);
+        Integer price = productRepository.findById(productId).get().getSellPrice();
+        Integer money = price * quantity;
+
+        return new ProductResponse(productId, productName, quantity, price, money);
+    }
+
+    private OrderDetail buildOrderDetail(String productId, String billId, Map<String, Integer> purchaseMap) {
+        return new OrderDetail(
+                UUID.randomUUID().toString(),
+                billId,
+                productId,
+                productRepository.findById(productId).get().getSellPrice(),
+                purchaseMap.get(productId));
     }
 
     private CustomerResponse customerResponseGenerator(String customerPhone) {
@@ -104,20 +117,4 @@ public class SellServiceImpl implements SellService {
         return new EmployeeResponse(userRepository.findByUsername(usernameOfEmployee).get());
     }
 
-    private List<ProductResponse> generateProductResponseList(Map<String, Integer> purchaseMap) {
-        List<ProductResponse> productResponseList = new ArrayList<>();
-
-        for (String productId : purchaseMap.keySet()) {
-            if (productRepository.findById(productId).isEmpty()) {
-                return null;
-            }
-
-            String productName = productRepository.findById(productId).get().getName();
-            Integer quantity = purchaseMap.get(productId);
-            Integer price = productRepository.findById(productId).get().getSellPrice();
-            Integer money = price * quantity;
-            productResponseList.add(new ProductResponse(productId, productName, quantity, price, money));
-        }
-        return productResponseList;
-    }
 }
