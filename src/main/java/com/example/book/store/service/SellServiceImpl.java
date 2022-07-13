@@ -55,7 +55,7 @@ public class SellServiceImpl implements SellService {
             productResponseList.add(prodRes);
             totalPayBeforeDiscount += prodRes.getMoney();
         }
-        totalPayAfterDiscount = totalPayBeforeDiscount * discountPercent/ 100 - discountOther;
+        totalPayAfterDiscount = (int) (totalPayBeforeDiscount * (1 - discountPercent/ 100.0))  - discountOther;
         EmployeeResponse employeeResponse = employeeResponseGenerator();
         CustomerResponse customerResponse = customerResponseGenerator(customerPhone);
         Date orderTime = new Date();
