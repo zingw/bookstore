@@ -8,27 +8,27 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "customer")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
+public class Customer {
 
     @Id
     @Column(name = "id")
     private String id;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "age")
+    private Integer age;
 
-    @Column(name = "password")
-    private String password;
-
-
-
+    @Column(name = "visit_times")
+    private Integer visitTimes;
 }

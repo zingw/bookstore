@@ -8,27 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "userrole")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
-
+public class UserRole {
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "user_id")
+    private String userId;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-
-
+    @Column(name = "role_id")
+    private String roleId;
 }

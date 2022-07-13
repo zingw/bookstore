@@ -1,5 +1,5 @@
 package com.example.book.store.security;
-import com.example.book.store.model.token.DecodedToken;
+import com.example.book.store.dto.DecodedToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;

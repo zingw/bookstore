@@ -1,4 +1,4 @@
-package com.example.book.store.model.token;
+package com.example.book.store.dto;
 
 import lombok.*;
 

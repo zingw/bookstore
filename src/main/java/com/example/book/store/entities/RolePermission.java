@@ -8,27 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "rolepermission")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
+public class RolePermission {
 
     @Id
     @Column(name = "id")
     private String id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "role_id")
+    private String roleId;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-
-
+    @Column(name = "permission_id")
+    private String permissionId;
 }

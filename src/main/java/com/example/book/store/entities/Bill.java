@@ -30,4 +30,18 @@ public class Bill {
 
     @Column(name ="time")
     private Date time;
+
+    @Column(name = "discount_percent")
+    private Integer discountPercent;
+
+    @Column(name = "discount_other")
+    private Integer discountOther;
+
+    @Column(name = "note")
+    private String note;
+    // theo tong so tien : >10tr ->disc 5%
+    //                           ->100tr-> disc 10%
+
+    // thep V.I.P -> giam them 5% nua
+    // giam them 5% neu thanh toan = VNPAY / MOMO
 }

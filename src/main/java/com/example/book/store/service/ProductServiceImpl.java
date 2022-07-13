@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.util.Optional;
 
 @Service
@@ -29,10 +28,10 @@ public class ProductServiceImpl implements ProductService {
         String productId = product.getId();
         Optional<Product>  productOptional = productRepository.findById(productId);
         if(productOptional.isPresent()){
-            return new ApiResponse<>("ID sản phẩm đã tồn tại",productOptional.get());
+            return new ApiResponse<>("ID sản phẩm đã tồn tại",false,productOptional.get());
         }
         productRepository.save(product);
-        return new ApiResponse<>("Thêm sản phầm thành công",product);
+        return new ApiResponse<>("Thêm sản phầm thành công",true,product);
     }
 
     @Override
@@ -40,10 +39,10 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional  = productRepository.findById(productId);
         if(productOptional.isPresent()){
             productRepository.delete(productOptional.get());
-            return new ApiResponse<>("Xóa sản phẩm thành công",productOptional.get());
+            return new ApiResponse<>("Xóa sản phẩm thành công",true,productOptional.get());
         }
 
-        return new ApiResponse<>("Xóa không thành công vì ID này không đúng",null);
+        return new ApiResponse<>("Xóa không thành công vì ID này không đúng",false,null);
     }
 
     @Override
@@ -51,9 +50,9 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(product.getId());
         if(productOptional.isPresent()){
             productRepository.save(product);
-            return  new ApiResponse<>("Cập nhật sản phẩm thành công",product);
+            return  new ApiResponse<>("Cập nhật sản phẩm thành công", true,product);
         }
-        return new ApiResponse<>("Cập nhật sản phẩm không thành công vì Id không đúng",null);
+        return new ApiResponse<>("Cập nhật sản phẩm không thành công vì Id không đúng",false,null);
     }
 
     @Override

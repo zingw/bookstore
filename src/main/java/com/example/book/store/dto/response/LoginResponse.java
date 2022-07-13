@@ -1,4 +1,4 @@
-package com.example.book.store.model.login;
+package com.example.book.store.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

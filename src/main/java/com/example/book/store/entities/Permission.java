@@ -8,13 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name  = "user")
+@Table(name  = "permission")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class User {
+public class Permission {
 
     @Id
     @Column(name = "id")
@@ -22,13 +22,5 @@ public class User {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-
 
 }

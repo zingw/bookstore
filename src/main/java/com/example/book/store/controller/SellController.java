@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,8 +18,12 @@ public class SellController {
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/sell")
     public ApiResponse<?> sell(@RequestBody Map<String,Integer> purchaseMap,
-                               @RequestParam String paymentType){
-        return sellService.sell(purchaseMap,paymentType);
+                               @RequestParam String paymentType,
+                               @RequestParam (required = false) String customerPhone,
+                               @RequestParam (required = false) Integer discountPercent,
+                               @RequestParam (required = false) Integer discountOther,
+                               @RequestParam (required = false) String note){
+        return sellService.sell(purchaseMap,paymentType,customerPhone,discountPercent,discountOther,note);
     }
 
 
