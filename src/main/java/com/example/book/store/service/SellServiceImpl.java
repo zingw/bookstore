@@ -39,35 +39,7 @@ public class SellServiceImpl implements SellService {
                                            Integer discountPercent,
                                            Integer discountOther,
                                            String note) {
-//        int total = 0;
-//        // check map is correct or not
-//        for (String s : purchaseMap.keySet()) {
-//            if (productRepository.findById(s).isEmpty()) {
-//                return new ApiResponse<>("Id" + s + "không tồn tại trên hệ thống, kiểm tra lại", 0);
-//            }
-//            total += productRepository.findById(s).get().getSellPrice()
-//                    * purchaseMap.get(s);
-//        }
-//
-//        //tach SecurityContext... ra 1 class rieng
-//        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        System.out.println(username);
-//
-//        Bill bill = new Bill(UUID.randomUUID().toString(), total, username, paymentType, new Date());
-//        billRepository.save(bill);
-//        List<OrderDetail> orderDetailList = new ArrayList<>();
-//
-//        // getorderDetailListBy...
-//        for (String s : purchaseMap.keySet()) {
-//            orderDetailList.add(new OrderDetail(UUID.randomUUID().toString(),
-//                    bill.getId(),
-//                    s,
-//                    productRepository.findById(s).get().getSellPrice(),
-//                    purchaseMap.get(s)));
-//        }
-//        orderDetailRepository.saveAll(orderDetailList);
-//        return new ApiResponse<>("Thanh toán thành công", total);
-//        //
+
         // generate OrderResponse
         List<ProductResponse> productResponseList = generateProductResponseList(purchaseMap);
         if (productResponseList == null) {
