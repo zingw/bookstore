@@ -52,7 +52,7 @@ public class SellServiceImpl implements SellService {
 
             orderDetails.add(buildOrderDetail(productId, billId, purchaseMap));
             ProductResponse prodRes = buildProductResponse(productId, purchaseMap);
-            productResponseList.add(buildProductResponse(productId, purchaseMap));
+            productResponseList.add(prodRes);
             totalPayBeforeDiscount += prodRes.getMoney();
         }
         totalPayAfterDiscount = totalPayBeforeDiscount * discountPercent/ 100 - discountOther;
