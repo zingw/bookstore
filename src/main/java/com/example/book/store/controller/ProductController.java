@@ -3,7 +3,7 @@ package com.example.book.store.controller;
 import com.example.book.store.dto.ApiResponse;
 import com.example.book.store.entities.Product;
 import com.example.book.store.service.ProductService;
-import com.example.book.store.utils.PermissionAuthorConstants;
+import com.example.book.store.constants.PermissionAuthorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;

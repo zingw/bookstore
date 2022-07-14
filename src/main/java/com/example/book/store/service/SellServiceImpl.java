@@ -67,6 +67,7 @@ public class SellServiceImpl implements SellService {
                             employeeResponse.getId(),
                             paymentType,
                             orderTime,
+                            customerResponse.getId(),
                             discountPercent,
                             discountOther,
                             note);

@@ -1,4 +1,4 @@
-package com.example.book.store.utils;
+package com.example.book.store.constants;
 
 public class CustomerAuthorConstants {
     public static final String CUSTOMER_ADD = "ADD_CUSTOMER";

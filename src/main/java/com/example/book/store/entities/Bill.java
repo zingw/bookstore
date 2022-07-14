@@ -31,6 +31,9 @@ public class Bill {
     @Column(name ="time")
     private Date time;
 
+    @Column(name ="customer_id")
+    private String customerId;
+
     @Column(name = "discount_percent")
     private Integer discountPercent;
 

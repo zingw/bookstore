@@ -2,7 +2,7 @@ package com.example.book.store.controller;
 
 import com.example.book.store.entities.Customer;
 import com.example.book.store.service.CustomerService;
-import com.example.book.store.utils.CustomerAuthorConstants;
+import com.example.book.store.constants.CustomerAuthorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @PreAuthorize("hasAuthority(\""+ CustomerAuthorConstants.CUSTOMER_VIEW_ALL+ "\")")
-    @GetMapping("add")
+    @GetMapping("view-all")
     public Page<Customer> viewAllCustomer(@RequestParam Integer pageNo,
                                           @RequestParam Integer limit){
         return customerService.getAllCustomer(pageNo,limit);

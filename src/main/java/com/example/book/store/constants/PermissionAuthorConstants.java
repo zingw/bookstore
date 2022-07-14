@@ -1,4 +1,4 @@
-package com.example.book.store.utils;
+package com.example.book.store.constants;
 
 public class PermissionAuthorConstants {
     // PRODUCT PERMISSION
