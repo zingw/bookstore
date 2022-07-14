@@ -9,6 +9,7 @@ import com.example.book.store.entities.User;
 import com.example.book.store.repository.BillRepository;
 import com.example.book.store.repository.CustomerRepository;
 import com.example.book.store.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class BillServiceImpl implements BillService{
 
     @Autowired
@@ -59,14 +61,16 @@ public class BillServiceImpl implements BillService{
     public CommonListRes findBill(String id,
                                              String employeeName,
                                              String paymentType,
-                                             Date   starTime,
+                                             Date   startTime,
                                              Date   endTime,
                                              String customerName,
                                              String customerPhone,
                                              Integer pageNo,
                                              Integer limit) {
-        Pageable pageable = PageRequest.of(pageNo,limit);
+        log.debug("=========> START FIND BILL VER 1");
+        Long startRunTime = new Date().getTime();
 
+        Pageable pageable = PageRequest.of(pageNo,limit);
         Optional<List<User>> employeeListOptional  = userRepository.findByName(employeeName);
         if (employeeListOptional.isEmpty()) return new CommonListRes(null,0,10,1);
         List<User> employeeList = employeeListOptional.get();
@@ -77,9 +81,9 @@ public class BillServiceImpl implements BillService{
         List<Customer> customerList = customerListOptional.get();
         List<String> customerIdList = customerList.stream().map(Customer::getId).collect(Collectors.toList());          // lấy ra danh sách mã KH match với name
 
-        Page<Bill> billPage =  billRepository.findBill( employeeIdList,
+        Page<Bill> billPage =  billRepository.findBill( id, employeeIdList,
                                                         paymentType,
-                                                        starTime,
+                                                        startTime,
                                                         endTime,
                                                         customerIdList,
                                                         customerPhone,
@@ -88,8 +92,38 @@ public class BillServiceImpl implements BillService{
         List<BillAndCustomerRes> billAndCustomerResList = bills.stream().map(BillAndCustomerRes::new).collect(Collectors.toList()); // convert sang 1 list chứa cả thông tin của bill và customer
         int totalPage = billPage.getTotalPages();
 
+        Long endRunTime = new Date().getTime();
+        log.debug("Duration: " + (endRunTime - startRunTime)/ 1000 + "s");
         return new CommonListRes(billAndCustomerResList,pageNo,limit,totalPage);
     }
 
+    @Override
+    public CommonListRes findBillVer2(String id, String employeeName,
+                                  String paymentType,
+                                  Date   startTime,
+                                  Date   endTime,
+                                  String customerName,
+                                  String customerPhone,
+                                  Integer pageNo,
+                                  Integer limit) {
+
+        log.debug("=========> START FIND BILL VER 2");
+        Long startRunTime = new Date().getTime();
+        Pageable pageable = PageRequest.of(pageNo, limit);
+        Page<Bill> billPage =  billRepository.findBillVer2( id, employeeName,
+                paymentType,
+                startTime,
+                endTime,
+                customerName,
+                customerPhone,
+                pageable);
+        List<Bill> bills = billPage.getContent();
+        List<BillAndCustomerRes> billAndCustomerResList = bills.stream().map(BillAndCustomerRes::new).collect(Collectors.toList()); // convert sang 1 list chứa cả thông tin của bill và customer
+        int totalPage = billPage.getTotalPages();
+
+        Long endRunTime = new Date().getTime();
+        log.debug("Duration: " + (endRunTime - startRunTime)/ 1000 + "s");
+        return new CommonListRes(billAndCustomerResList,pageNo,limit,totalPage);
+    }
 
 }

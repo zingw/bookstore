@@ -22,4 +22,14 @@ public interface BillService {
                                       String customerPhone,
                                       Integer pageNo,
                                       Integer limit);
+
+    CommonListRes findBillVer2(String id,
+                               String employeeName,
+                               String paymentType,
+                               Date starTime,
+                               Date endTime,
+                               String customerName,
+                               String customerPhone,
+                               Integer pageNo,
+                               Integer limit);
 }
