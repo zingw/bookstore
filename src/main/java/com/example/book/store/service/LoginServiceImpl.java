@@ -1,6 +1,5 @@
 package com.example.book.store.service;
 
-import com.example.book.store.dto.EncodeToken;
 import com.example.book.store.entities.Permission;
 import com.example.book.store.entities.RolePermission;
 import com.example.book.store.entities.User;
@@ -12,6 +11,7 @@ import com.example.book.store.repository.UserRoleRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +40,13 @@ public class LoginServiceImpl implements LoginService {
             User user = userOptional.get();
             String pw = user.getPassword();
 
-            if (BCrypt.checkpw(password, pw))
-                return new LoginResponse("Login Success", tokenGenerator(user));
+            if (BCrypt.checkpw(password, pw)){
+                return new LoginResponse("Login Success", tokenGenerator(user), HttpStatus.OK);
+            }
 
-            else return new LoginResponse("Wrong password");
+            else return  new LoginResponse("Login Failed",HttpStatus.NOT_FOUND);
         }
-        return new LoginResponse("Username not exist");
+        return new LoginResponse("Username not exist",HttpStatus.NOT_FOUND);
     }
 
     private String tokenGenerator(User user) throws JsonProcessingException {

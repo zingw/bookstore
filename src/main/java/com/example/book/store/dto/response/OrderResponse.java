@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
-    private List<ProductResponse> productResponseList ;
+    private List<ProductRes> productResList;
     private EmployeeResponse employeeResponse;
     private CustomerResponse customerResponse;
     private Date orderTime;

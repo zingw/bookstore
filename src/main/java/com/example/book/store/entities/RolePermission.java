@@ -25,4 +25,7 @@ public class RolePermission {
 
     @Column(name = "permission_id")
     private String permissionId;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }

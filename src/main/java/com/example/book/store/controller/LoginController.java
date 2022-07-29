@@ -1,13 +1,14 @@
 package com.example.book.store.controller;
 
+import com.example.book.store.dto.request.LoginReq;
 import com.example.book.store.dto.response.LoginResponse;
 import com.example.book.store.service.LoginService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/home")
@@ -16,8 +17,11 @@ public class LoginController {
     LoginService loginService;
 
     @GetMapping("/login")
-    public LoginResponse login(@RequestParam String username,
-                               @RequestParam String password) throws JsonProcessingException {
-        return loginService.checkLogin(username,password);
+    public ResponseEntity<LoginResponse> login(@Valid
+                               @RequestBody LoginReq loginReq) throws JsonProcessingException {
+        String username = loginReq.getUsername();
+        String password = loginReq.getPassword();
+        LoginResponse loginResponse = loginService.checkLogin(username,password);
+        return new ResponseEntity<>(loginResponse,loginResponse.getStatus());
     }
 }

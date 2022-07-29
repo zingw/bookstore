@@ -29,6 +29,6 @@ public class Customer {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "visit_times")
-    private Integer visitTimes;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }

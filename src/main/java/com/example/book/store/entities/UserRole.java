@@ -24,4 +24,7 @@ public class UserRole {
 
     @Column(name = "role_id")
     private String roleId;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }

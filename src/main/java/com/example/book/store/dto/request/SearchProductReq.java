@@ -1,19 +1,16 @@
-package com.example.book.store.dto;
-
+package com.example.book.store.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-
-public class DecodedToken {
-    private String userName;
-    private List<String> authorList;
+public class SearchProductReq {
+    private String name;
+    private String categoryName;
+    private String categoryId;
 }

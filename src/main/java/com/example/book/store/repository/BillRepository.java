@@ -1,6 +1,5 @@
 package com.example.book.store.repository;
 
-import com.example.book.store.dto.response.CommonListRes;
 import com.example.book.store.entities.Bill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

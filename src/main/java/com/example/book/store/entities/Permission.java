@@ -23,4 +23,6 @@ public class Permission {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }

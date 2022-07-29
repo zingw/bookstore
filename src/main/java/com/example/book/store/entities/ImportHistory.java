@@ -9,29 +9,26 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name  = "order")
+@Table(name  = "import_history")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Data
-public class Bill {
-
+public class ImportHistory {
     @Id
-    @Column(name = "id")
+    @Column(name ="id")
     private String id;
-
-    @Column(name = "total_money")
-    private Integer totalMoney;
 
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "payment_type")
-    private String paymentType;
+    @Column(name = "product_id")
+    private String productId;
 
-    @Column(name ="create_time")
-    private Date time;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    @Column(name ="customer_id")
-    private String customerId;
-
+    @Column(name = "date")
+    private Date importTime;
 }
