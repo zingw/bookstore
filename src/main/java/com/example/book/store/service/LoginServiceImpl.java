@@ -1,22 +1,21 @@
 package com.example.book.store.service;
 
-import com.example.book.store.entities.Permission;
-import com.example.book.store.entities.RolePermission;
+import com.example.book.store.dto.common.ResponseObject;
+import com.example.book.store.dto.request.reqlogin.LoginReq;
 import com.example.book.store.entities.User;
 import com.example.book.store.dto.response.LoginResponse;
+import com.example.book.store.jwt.JwtHelper;
 import com.example.book.store.repository.PermissionRepository;
 import com.example.book.store.repository.RolePermissionRepository;
 import com.example.book.store.repository.UserRepository;
 import com.example.book.store.repository.UserRoleRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -33,45 +32,33 @@ public class LoginServiceImpl implements LoginService {
     PermissionRepository permissionRepository;
 
     @Override
-    public LoginResponse checkLogin(String username, String password) throws JsonProcessingException {
+    public ResponseObject<LoginResponse> checkLogin(LoginReq req) throws JsonProcessingException {
+        String username = req.getUsername();
+        String password = req.getPassword();
         Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent() && !userOptional.get().getIsDeleted()) {
 
             User user = userOptional.get();
             String pw = user.getPassword();
 
             if (BCrypt.checkpw(password, pw)){
-                return new LoginResponse("Login Success", tokenGenerator(user), HttpStatus.OK);
+                return ResponseObject.success(new LoginResponse(tokenGenerator(user)));
             }
 
-            else return  new LoginResponse("Login Failed",HttpStatus.NOT_FOUND);
+            else return  ResponseObject.failed("PASSWORD_FAILED",HttpStatus.BAD_REQUEST);
         }
-        return new LoginResponse("Username not exist",HttpStatus.NOT_FOUND);
+        return ResponseObject.failed("Username not exist",HttpStatus.BAD_REQUEST);
     }
 
-    private String tokenGenerator(User user) throws JsonProcessingException {
+    private String tokenGenerator(User user) {
         String userId = user.getId();
-        List<String> roleList = userRoleRepository.findRoleIdsByUserId(userId);
-        List<String> permissionNameList = generatePermissionNameList(roleList);
-        EncodeToken encodeToken = new EncodeToken(user.getUsername(),permissionNameList);
-        String jsonTokenBeforeEncode = new ObjectMapper().writeValueAsString(encodeToken);
+        String username = user.getUsername();
+        List<String> authors = permissionRepository.getAuthors(userId);
 
-        return Base64.getEncoder().encodeToString(jsonTokenBeforeEncode.getBytes());
-
-    }
-
-    private List<String> generatePermissionNameList(List<String> rollIdList) {
-        List<RolePermission> rolePermissionList = rolePermissionRepository.getRolePermissionList(rollIdList);
-
-        Set<String> permissionSet = rolePermissionList
-                .stream()
-                .map(RolePermission::getPermissionId)
-                .collect(Collectors.toSet());
-
-        return rolePermissionRepository
-                .getPermissionList(permissionSet)
-                .stream().map(Permission::getName)
-                .collect(Collectors.toList());
+        Map<String,Object> body = new HashMap<>();
+        body.put("username",username);
+        body.put("authors",authors);
+        return JwtHelper.createToken(body);
     }
 
 

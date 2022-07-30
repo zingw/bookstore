@@ -1,6 +1,7 @@
 package com.example.book.store.controller;
 
-import com.example.book.store.dto.request.LoginReq;
+import com.example.book.store.dto.common.ResponseObject;
+import com.example.book.store.dto.request.reqlogin.LoginReq;
 import com.example.book.store.dto.response.LoginResponse;
 import com.example.book.store.service.LoginService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,11 +18,10 @@ public class LoginController {
     LoginService loginService;
 
     @GetMapping("/login")
-    public ResponseEntity<LoginResponse> login(@Valid
-                               @RequestBody LoginReq loginReq) throws JsonProcessingException {
-        String username = loginReq.getUsername();
-        String password = loginReq.getPassword();
-        LoginResponse loginResponse = loginService.checkLogin(username,password);
-        return new ResponseEntity<>(loginResponse,loginResponse.getStatus());
+    public ResponseEntity<ResponseObject<LoginResponse>> login(@Valid
+                               @RequestBody LoginReq req) throws JsonProcessingException {
+
+        ResponseObject<LoginResponse> res = loginService.checkLogin(req);
+        return new ResponseEntity<>(res,res.getStatus());
     }
 }

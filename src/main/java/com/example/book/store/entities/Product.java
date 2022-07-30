@@ -1,12 +1,10 @@
 package com.example.book.store.entities;
 
-import com.example.book.store.dto.request.CreateProductReq;
-import com.example.book.store.dto.request.DeleteProductReq;
-import com.example.book.store.dto.request.UpdateProductReq;
-import com.example.book.store.repository.CategoryRepository;
+import com.example.book.store.dto.request.reqproduct.CreateProductReq;
+import com.example.book.store.dto.request.reqproduct.DeleteProductReq;
+import com.example.book.store.dto.request.reqproduct.UpdateProductReq;
 import com.example.book.store.utils.RandomIdUtils;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

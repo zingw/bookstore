@@ -2,14 +2,14 @@ package com.example.book.store.controller;
 
 import com.example.book.store.dto.common.Pagination;
 import com.example.book.store.dto.common.ResponseObject;
-import com.example.book.store.dto.request.*;
-import com.example.book.store.dto.response.CategoryRes;
+import com.example.book.store.dto.request.reqproduct.CreateProductReq;
+import com.example.book.store.dto.request.reqproduct.DeleteProductReq;
+import com.example.book.store.dto.request.reqproduct.SearchProductReq;
+import com.example.book.store.dto.request.reqproduct.UpdateProductReq;
 import com.example.book.store.dto.response.ProductRes;
 import com.example.book.store.dto.response.ProductSearchRes;
-import com.example.book.store.entities.Product;
 import com.example.book.store.service.ProductService;
 import com.example.book.store.constants.PermissionAuthorConstants;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -58,20 +57,11 @@ public class ProductController {
         return new ResponseEntity<>(productObjRes,productObjRes.getStatus());
     }
 
-    @GetMapping("/get-all-product")
-    public ResponseEntity<ResponseObject<Page<ProductRes>>> getAllProduct(@Valid
-                                                                          @RequestBody Pagination page){
-        ResponseObject<Page<ProductRes>> res =
-                productService.getAllProduct(page);
-        return new ResponseEntity<>(res,res.getStatus());
-
-    }
     @GetMapping("/product/search")
-    public ResponseEntity<ResponseObject<Page<ProductSearchRes>>> getProductJoinCategoryList(@Valid @RequestBody Pagination page){
+    public ResponseEntity<ResponseObject<Page<ProductSearchRes>>> getProductSearchList(@Valid @RequestBody Pagination page){
         ResponseObject<Page<ProductSearchRes>> res =
-                productService.getProductJoinCategoryList(page);
+                productService.getProductList(page);
         return new ResponseEntity<>(res,res.getStatus());
-
     }
     @GetMapping("/search-product/{pageNo}/{limit}")
     public ResponseEntity<ResponseObject<Page<ProductSearchRes>>> searchProduct(@RequestBody SearchProductReq req,
@@ -81,7 +71,7 @@ public class ProductController {
                                                                           @PathVariable("limit") Integer limit){
         Pagination pagination = new Pagination(pageNo-1,limit);
         ResponseObject<Page<ProductSearchRes>> res =
-                productService.searchProduct(req,pagination);
+                productService.getAllProduct(req,pagination);
         return new ResponseEntity<>(res,res.getStatus());
     }
 

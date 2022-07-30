@@ -1,4 +1,4 @@
-package com.example.book.store.dto.request;
+package com.example.book.store.dto.request.reqproduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

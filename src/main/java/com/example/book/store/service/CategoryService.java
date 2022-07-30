@@ -1,7 +1,7 @@
 package com.example.book.store.service;
 
-import com.example.book.store.dto.request.CreateCategoryReq;
-import com.example.book.store.dto.request.UpdateCategoryReq;
+import com.example.book.store.dto.request.reqcategory.CreateCategoryReq;
+import com.example.book.store.dto.request.reqcategory.UpdateCategoryReq;
 import com.example.book.store.dto.response.CategoryRes;
 import com.example.book.store.dto.common.ResponseObject;
 import com.example.book.store.entities.Category;

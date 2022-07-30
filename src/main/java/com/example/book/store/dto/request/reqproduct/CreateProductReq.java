@@ -1,4 +1,4 @@
-package com.example.book.store.dto.request;
+package com.example.book.store.dto.request.reqproduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UpdateProductReq {
-    private String id;
+public class CreateProductReq {
+
     private String name;
+    private String sku;
     private Integer importPrice;
     private Integer sellPrice;
     private String categoryId;

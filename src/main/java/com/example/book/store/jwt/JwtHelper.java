@@ -28,7 +28,7 @@ public class JwtHelper {
                 .compact();
     }
 
-    private static Map<String,Object> decodeToken(String token){
+     public static Map<String,Object> decodeToken(String token){
         JwtParser parser = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build();

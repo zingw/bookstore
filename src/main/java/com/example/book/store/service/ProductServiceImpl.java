@@ -2,18 +2,15 @@ package com.example.book.store.service;
 
 import com.example.book.store.dto.common.Pagination;
 import com.example.book.store.dto.common.ResponseObject;
-import com.example.book.store.dto.request.CreateProductReq;
-import com.example.book.store.dto.request.DeleteProductReq;
-import com.example.book.store.dto.request.SearchProductReq;
-import com.example.book.store.dto.request.UpdateProductReq;
-import com.example.book.store.dto.response.CategoryRes;
+import com.example.book.store.dto.request.reqproduct.CreateProductReq;
+import com.example.book.store.dto.request.reqproduct.DeleteProductReq;
+import com.example.book.store.dto.request.reqproduct.SearchProductReq;
+import com.example.book.store.dto.request.reqproduct.UpdateProductReq;
 import com.example.book.store.dto.response.ProductRes;
 import com.example.book.store.dto.response.ProductSearchRes;
-import com.example.book.store.entities.Category;
 import com.example.book.store.entities.Product;
 import com.example.book.store.repository.CategoryRepository;
 import com.example.book.store.repository.ProductRepository;
-import com.example.book.store.utils.RandomIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,9 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,21 +68,15 @@ public class ProductServiceImpl implements ProductService {
         String productId = req.getId();
         Optional<Product> productOptional =  productRepository.findByIdAndIsDeletedIsFalse(productId);
         if(productOptional.isEmpty()) return  ResponseObject.failed("ID_NOT_FOUND",HttpStatus.NOT_FOUND);
-        Product product = new Product(req);
+
+        Product product = productOptional.get();
+        product.setIsDeleted(true);
         return ResponseObject.success(new ProductRes(product));
     }
 
-    @Override
-    public ResponseObject<Page<ProductRes>> getAllProduct(Pagination page) {
-        Pageable pageable = PageRequest.of(page.getPageNo()-1, page.getLimit());
-        Page<Product>  productPage =  productRepository.findByIsDeletedFalse(pageable);
-        List<ProductRes> resList = productPage.stream().map(ProductRes::new).collect(Collectors.toList());
-        Page<ProductRes> resPage = new PageImpl<>(resList);
-        return ResponseObject.success(resPage);
-    }
 
     @Override
-    public ResponseObject<Page<ProductSearchRes>> searchProduct(SearchProductReq req,Pagination page) {
+    public ResponseObject<Page<ProductSearchRes>> getAllProduct(SearchProductReq req, Pagination page) {
         String name= req.getName();
         String categoryName = req.getCategoryName();
         String categoryId = req.getCategoryId();
@@ -107,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseObject<Page<ProductSearchRes>> getProductJoinCategoryList(Pagination page) {
+    public ResponseObject<Page<ProductSearchRes>> getProductList(Pagination page) {
         Pageable pageable = PageRequest.of(page.getPageNo(),page.getLimit());
         Page<Product> pageProduct = productRepository.findAll(pageable);
         List<ProductSearchRes>  resList = pageProduct.stream().map(ProductSearchRes::new).collect(Collectors.toList());

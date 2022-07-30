@@ -1,5 +1,6 @@
 package com.example.book.store.dto.response;
 
+import com.example.book.store.entities.Category;
 import com.example.book.store.entities.Product;
 import com.example.book.store.repository.CategoryRepository;
 import com.example.book.store.repository.ProductRepository;
@@ -14,31 +15,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Getter
 @Setter
 public class ProductSearchRes {
-    @Autowired
-    CategoryRepository categoryRepository;
     private String id;
     private String sku;
     private String name;
     private Integer importPrice;
     private Integer sellPrice;
-    private String categoryId;
-    private String categoryName;
+    private CategoryRes categoryRes;
     private Boolean isDeleted;
 
-    public ProductSearchRes(Product product){
+    public ProductSearchRes(Product product, Category category){
         this.id = product.getId();
         this.sku = product.getSku();
         this.name = product.getName();
         this.importPrice = product.getSellPrice();
         this.sellPrice = product.getSellPrice();
-        this.categoryId = product.getCategoryId();
-        this.categoryName = generateCategoryName(product.getId());
+        this.categoryRes = new CategoryRes(category);
         this.isDeleted = product.getIsDeleted();
     }
 
-    private String generateCategoryName(String id) {
-        return categoryRepository.findById(id).get().getName();
-    }
+
 
 
 }

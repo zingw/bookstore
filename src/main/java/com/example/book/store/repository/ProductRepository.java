@@ -18,7 +18,6 @@ public interface ProductRepository  extends JpaRepository<Product,String> {
 
     Optional<Product> findBySku(String sku);
 
-    Page<Product> findByIsDeletedFalse(Pageable pageable);
 
     @Query(value = "select  p from Product p join Category  c on p.categoryId = c.id where " +
             " (:name is null or p.name like :name) and " +

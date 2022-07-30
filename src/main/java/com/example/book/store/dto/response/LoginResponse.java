@@ -11,17 +11,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 @Setter
 public class LoginResponse {
-    private String message;
     private String token;
-    private HttpStatus status;
-
-    public LoginResponse(String message){
-        this.message = message;
-    }
-    public LoginResponse(String message,
-                         HttpStatus httpStatus){
-        this.message = message;
-        this.status = httpStatus;
-    }
 }
 
