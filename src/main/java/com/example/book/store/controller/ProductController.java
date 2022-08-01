@@ -57,8 +57,8 @@ public class ProductController {
         return new ResponseEntity<>(productObjRes,productObjRes.getStatus());
     }
 
-    @GetMapping("/product/search")
-    public ResponseEntity<ResponseObject<Page<ProductSearchRes>>> getProductSearchList(@Valid @RequestBody Pagination page){
+    @GetMapping("/product/view")
+    public ResponseEntity<ResponseObject<Page<ProductSearchRes>>> getProductList(@Valid @RequestBody Pagination page){
         ResponseObject<Page<ProductSearchRes>> res =
                 productService.getProductList(page);
         return new ResponseEntity<>(res,res.getStatus());

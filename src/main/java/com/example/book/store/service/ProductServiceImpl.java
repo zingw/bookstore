@@ -8,6 +8,7 @@ import com.example.book.store.dto.request.reqproduct.SearchProductReq;
 import com.example.book.store.dto.request.reqproduct.UpdateProductReq;
 import com.example.book.store.dto.response.ProductRes;
 import com.example.book.store.dto.response.ProductSearchRes;
+import com.example.book.store.entities.Category;
 import com.example.book.store.entities.Product;
 import com.example.book.store.repository.CategoryRepository;
 import com.example.book.store.repository.ProductRepository;
@@ -19,8 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,9 +89,8 @@ public class ProductServiceImpl implements ProductService {
                 categoryName,
                 categoryId,
                 pageable);
-        List<ProductSearchRes>  resList = pageProduct.stream().map(ProductSearchRes::new).collect(Collectors.toList());
-        Page<ProductSearchRes> resPage = new PageImpl<>(resList);
-        return ResponseObject.success(resPage);
+        List<String> categoryIdList = pageProduct.stream().map(Product::getCategoryId).collect(Collectors.toList());
+        return ResponseObject.success(resPageGenerator(categoryIdList,pageProduct));
 
     }
 
@@ -99,9 +98,19 @@ public class ProductServiceImpl implements ProductService {
     public ResponseObject<Page<ProductSearchRes>> getProductList(Pagination page) {
         Pageable pageable = PageRequest.of(page.getPageNo(),page.getLimit());
         Page<Product> pageProduct = productRepository.findAll(pageable);
-        List<ProductSearchRes>  resList = pageProduct.stream().map(ProductSearchRes::new).collect(Collectors.toList());
-        Page<ProductSearchRes> resPage = new PageImpl<>(resList);
-        return ResponseObject.success(resPage);
+        List<String> categoryIdList = pageProduct.stream().map(Product::getCategoryId).collect(Collectors.toList());
+        return ResponseObject.success(resPageGenerator(categoryIdList,pageProduct));
+    }
+
+    private Page<ProductSearchRes> resPageGenerator(List<String> categoryIdList,Page<Product> pageProduct) {
+        List<Category> categories = categoryRepository.findAllByIdIn(categoryIdList);
+        Map<String,Category> categoryMap = categories.stream()
+                .collect(Collectors.toMap(Category::getId,c ->c));
+        List<ProductSearchRes> resList = new ArrayList<>();
+        for(Product product : pageProduct){
+            resList.add(new ProductSearchRes(product,categoryMap));
+        }
+        return new PageImpl<>(resList);
     }
 
 

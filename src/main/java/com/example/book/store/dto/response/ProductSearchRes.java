@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,16 +22,18 @@ public class ProductSearchRes {
     private String name;
     private Integer importPrice;
     private Integer sellPrice;
+
+    private String categoryId;
     private CategoryRes categoryRes;
     private Boolean isDeleted;
 
-    public ProductSearchRes(Product product, Category category){
+    public ProductSearchRes(Product product, Map<String,Category> categoryMap){
         this.id = product.getId();
         this.sku = product.getSku();
         this.name = product.getName();
         this.importPrice = product.getSellPrice();
         this.sellPrice = product.getSellPrice();
-        this.categoryRes = new CategoryRes(category);
+        this.categoryRes = new CategoryRes(categoryMap.get(categoryId));
         this.isDeleted = product.getIsDeleted();
     }
 
