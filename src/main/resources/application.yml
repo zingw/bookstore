@@ -16,5 +16,5 @@ mail-config :
     host: smtp.gmail.com
     port: 587
     username : vietduc.bk69@gmail.com
-    password : guyzzpuixlpptpxu
+    password : khwmwscntdciopts
     default-encoding: UTF-8
