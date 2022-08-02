@@ -23,11 +23,17 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "username")
     private String username;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "reset_key")
+    private Integer resetKey;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
