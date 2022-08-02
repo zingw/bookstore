@@ -21,17 +21,17 @@ public class MailServiceImpl implements  MailService{
     SpringTemplateEngine templateEngine;
 
     @Override
-    public void sendHtmlMail(DataMailDTO dataMail, String templateName) throws MessagingException {
+    public void sendHtmlMail(DataMailDTO dataMail, String templateName) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
         try{
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "utf-8");
             Context context = new Context();
             context.setVariables(dataMail.getProps());
-            String mailContent = templateEngine.process(templateName, context);
+            String html = templateEngine.process(templateName, context);
             message.setTo(dataMail.getTo());
             message.setSubject(dataMail.getSubject());
-            message.setText(mailContent);
+            message.setText(html,true);
 
             mailSender.send(mimeMessage);
         }catch (MailException | MessagingException e){

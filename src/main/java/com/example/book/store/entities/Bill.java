@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name  = "order")
+@Table(name  = "bill")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
