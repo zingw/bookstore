@@ -18,5 +18,3 @@ mail-config :
     username : vietduc.bk69@gmail.com
     password : guyzzpuixlpptpxu
     default-encoding: UTF-8
-    expire-time: 60000
-    subject
