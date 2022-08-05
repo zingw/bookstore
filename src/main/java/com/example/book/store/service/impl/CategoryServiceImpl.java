@@ -1,4 +1,4 @@
-package com.example.book.store.service;
+package com.example.book.store.service.impl;
 
 import com.example.book.store.dto.request.reqcategory.CreateCategoryReq;
 import com.example.book.store.dto.request.reqcategory.UpdateCategoryReq;
@@ -6,6 +6,7 @@ import com.example.book.store.dto.response.CategoryRes;
 import com.example.book.store.dto.common.ResponseObject;
 import com.example.book.store.entities.Category;
 import com.example.book.store.repository.CategoryRepository;
+import com.example.book.store.service.CategoryService;
 import com.example.book.store.utils.RandomIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl implements  CategoryService{
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 

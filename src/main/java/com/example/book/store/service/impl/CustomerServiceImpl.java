@@ -1,7 +1,8 @@
-package com.example.book.store.service;
+package com.example.book.store.service.impl;
 
 import com.example.book.store.entities.Customer;
 import com.example.book.store.repository.CustomerRepository;
+import com.example.book.store.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;

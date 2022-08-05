@@ -1,4 +1,4 @@
-package com.example.book.store.service;
+package com.example.book.store.service.impl;
 
 import com.example.book.store.constants.MailConstant;
 import com.example.book.store.dto.common.ResponseObject;
@@ -11,6 +11,8 @@ import com.example.book.store.repository.PermissionRepository;
 import com.example.book.store.repository.RolePermissionRepository;
 import com.example.book.store.repository.UserRepository;
 import com.example.book.store.repository.UserRoleRepository;
+import com.example.book.store.service.LoginService;
+import com.example.book.store.service.MailService;
 import com.example.book.store.utils.KeyGen;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;

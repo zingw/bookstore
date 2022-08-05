@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name  = "inventory")
@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Data
-public class Intentory {
+public class Inventory {
 
     @Id
     @Column(name = "id")
@@ -26,5 +26,6 @@ public class Intentory {
 
     @Column(name = "quantity")
     private Integer quantity;
+
 
 }

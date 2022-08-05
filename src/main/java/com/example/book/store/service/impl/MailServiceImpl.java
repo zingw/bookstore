@@ -1,6 +1,7 @@
-package com.example.book.store.service;
+package com.example.book.store.service.impl;
 
 import com.example.book.store.dto.mail.DataMailDTO;
+import com.example.book.store.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 
 @Service
-public class MailServiceImpl implements  MailService{
+public class MailServiceImpl implements MailService {
     @Autowired
     JavaMailSender mailSender;
     @Autowired

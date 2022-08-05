@@ -1,4 +1,4 @@
-package com.example.book.store.service;
+package com.example.book.store.service.impl;
 
 import com.example.book.store.dto.common.Pagination;
 import com.example.book.store.dto.common.ResponseObject;
@@ -12,6 +12,7 @@ import com.example.book.store.entities.Category;
 import com.example.book.store.entities.Product;
 import com.example.book.store.repository.CategoryRepository;
 import com.example.book.store.repository.ProductRepository;
+import com.example.book.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
