@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface InventoryRepository extends JpaRepository<Inventory,String> {
-    List<Inventory> findByProductIdIn(Set<String> keySet);
+    List<Inventory> findByProductIdIn(List<String> keys);
 }
