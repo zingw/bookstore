@@ -16,5 +16,6 @@ public class CreateProductReq {
     private Integer importPrice;
     private Integer sellPrice;
     private String categoryId;
+    private Integer quantity;
     private Boolean isDeleted;
 }

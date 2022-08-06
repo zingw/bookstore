@@ -17,6 +17,8 @@ public class ProductRes {
 
     private String id;
     private String name;
+
+    private String sku;
     private Integer importPrice;
     private Integer sellPrice;
     private String categoryId;
@@ -25,6 +27,7 @@ public class ProductRes {
     public ProductRes(Product product) {
         this.id = product.getId();
         this.name = product.getName();
+        this.sku = product.getSku();
         this.importPrice = product.getImportPrice();
         this.sellPrice = product.getSellPrice();
         this.categoryId = product.getCategoryId();

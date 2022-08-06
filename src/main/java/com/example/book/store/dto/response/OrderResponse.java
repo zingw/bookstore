@@ -16,5 +16,4 @@ public class OrderResponse {
     private CustomerResponse customerResponse;
     private Date orderTime;
     private String paymentType;
-    private Integer totalPayAfterDiscount;
 }
