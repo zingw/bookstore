@@ -1,4 +1,4 @@
-package com.example.book.store.service.impl;
+package com.example.book.store.service;
 
 import com.example.book.store.dto.mail.DataMailDTO;
 import com.example.book.store.service.MailService;

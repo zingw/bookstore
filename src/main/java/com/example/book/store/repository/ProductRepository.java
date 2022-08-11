@@ -1,6 +1,7 @@
 package com.example.book.store.repository;
 
 import com.example.book.store.dto.common.ResponseObject;
+import com.example.book.store.dto.response.ProductInfo;
 import com.example.book.store.dto.response.ProductRes;
 import com.example.book.store.dto.response.ProductSearchRes;
 import com.example.book.store.entities.Product;
@@ -27,4 +28,8 @@ public interface ProductRepository  extends JpaRepository<Product,String> {
     Page<Product> search(String name, String categoryName, String categoryId, Pageable pageable);
 
     List<Product> findByIdIn(List<String> productIds);
+
+    @Query(value = "select p.id as id, p.name as name, c.name as categoryName from Product p left join " +
+            " Category  c on p.categoryId = c.id")
+    List<ProductInfo> getProductList();
 }

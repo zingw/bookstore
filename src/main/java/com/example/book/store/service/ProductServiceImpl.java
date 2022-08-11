@@ -1,4 +1,4 @@
-package com.example.book.store.service.impl;
+package com.example.book.store.service;
 
 import com.example.book.store.dto.common.Pagination;
 import com.example.book.store.dto.common.ResponseObject;
@@ -6,6 +6,7 @@ import com.example.book.store.dto.request.reqproduct.CreateProductReq;
 import com.example.book.store.dto.request.reqproduct.DeleteProductReq;
 import com.example.book.store.dto.request.reqproduct.SearchProductReq;
 import com.example.book.store.dto.request.reqproduct.UpdateProductReq;
+import com.example.book.store.dto.response.ProductInfo;
 import com.example.book.store.dto.response.ProductRes;
 import com.example.book.store.dto.response.ProductSearchRes;
 import com.example.book.store.entities.Category;
@@ -103,6 +104,8 @@ public class ProductServiceImpl implements ProductService {
         return ResponseObject.success(resPageGenerator(categoryIdList,pageProduct));
     }
 
+
+
     private Page<ProductSearchRes> resPageGenerator(List<String> categoryIdList,Page<Product> pageProduct) {
         List<Category> categories = categoryRepository.findAllByIdIn(categoryIdList);
         Map<String,Category> categoryMap = categories.stream()
@@ -114,6 +117,10 @@ public class ProductServiceImpl implements ProductService {
         return new PageImpl<>(resList);
     }
 
+    @Override
+    public List<ProductInfo> getProductInfoList() {
+        return productRepository.getProductList();
+    }
 
 
 }
